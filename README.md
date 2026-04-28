@@ -1,200 +1,80 @@
-# Fetii SQL Chatbot
+# Fetichatbot 🤖
 
-A modern, professional SQL chatbot for querying rideshare data using natural language. Built with React, PostgreSQL, and Google Gemini AI.
+Fetichatbot is a powerful, intelligent SQL Chatbot that allows users to chat with their data. Built with **FastAPI** and powered by **Google Gemini** models via **LangChain**, it enables natural language querying of structured datasets (CSV, Excel, Parquet) through an interactive web interface.
 
-## 🏗️ Architecture
+## 🚀 Features
 
-This project has been redesigned from a Streamlit + Docker setup to a modern static frontend with serverless backend:
-
-- **Frontend**: React (Create React App) with TailwindCSS - deployed on GitHub Pages
-- **Backend**: Vercel Serverless Functions - handles AI/SQL queries
-- **Database**: PostgreSQL (existing database with rideshare data)
-- **AI**: Google Gemini (LangChain) - converts natural language to SQL
+- **Natural Language to SQL**: Ask questions in plain English and get answers directly from your data.
+- **Multi-Format Ingestion**: Upload `.csv`, `.xlsx`, `.xls`, and `.parquet` files for instant analysis.
+- **Dynamic Database Sync**: Automatically detects and loads data files from the `data/` directory.
+- **Intelligent Fallback**: Smartly rotates between different Gemini models (Flash, Pro, Lite) to ensure high availability and performance.
+- **Persistent Caching**: Speeds up repeated questions by caching responses locally.
+- **Premium UI**: A sleek, modern chat interface with real-time status updates and file upload capabilities.
 
 ## 📁 Project Structure
 
-```
+```text
 Fetichatbot/
-├── frontend/          # React frontend (GitHub Pages)
-│   ├── src/
-│   │   ├── App.js     # Main chat interface
-│   │   └── index.css  # TailwindCSS styles
-│   └── package.json
-├── backend/           # Serverless backend (Vercel)
-│   ├── api/
-│   │   └── chat.js    # Chat API endpoint
-│   └── package.json
-├── data/
-│   └── FetiiAI_Data_Austin.xlsx
-└── README.md
+├── backend/
+│   ├── main.py             # FastAPI Server & API Endpoints
+│   ├── agent.py            # LangChain SQL Agent & LLM Logic
+│   ├── db_builder.py       # Database Management & File Ingestion
+│   ├── requirements.txt    # Python Dependencies
+│   └── database.sqlite     # Local SQLite Database
+├── frontend copy/
+│   ├── index.html          # Web Interface
+│   ├── style.css           # Modern Styling
+│   └── script.js           # Frontend Logic & API Integration
+├── data/                   # Permanent datasets (CSV/Excel/Parquet)
+└── .env                    # Environment variables (API Keys)
 ```
 
-## 🚀 Setup Instructions
+## 🛠️ Setup & Installation
 
-### 1. Get Google Gemini API Key
-
-1. Go to [AI Studio](https://makersuite.google.com/app/apikey)
-2. Create a new API key
-3. Copy the key
-
-### 2. Deploy Backend to Vercel
-
-1. Install Vercel CLI:
-   ```bash
-   npm install -g vercel
-   ```
-
-2. Navigate to backend directory:
-   ```bash
-   cd backend
-   ```
-
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-4. Login to Vercel:
-   ```bash
-   vercel login
-   ```
-
-5. Deploy:
-   ```bash
-   vercel
-   ```
-
-6. Add environment variables in Vercel dashboard:
-   - DATABASE_URL (your PostgreSQL connection string)
-   - GOOGLE_API_KEY (your Gemini API key)
-
-7. Note your Vercel app URL (e.g., `https://your-app.vercel.app`)
-
-**Note**: Your PostgreSQL database should already have the tables (trips, riders, ride_demo) with data loaded from the original Docker setup.
-
-### 3. Set Up Frontend
-
-1. Navigate to frontend directory:
-   ```bash
-   cd frontend
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Create `.env` file:
-   ```bash
-   cp .env.example .env
-   ```
-
-4. Edit `.env` with your backend URL:
-   ```
-   REACT_APP_API_URL=https://your-vercel-app.vercel.app/api/chat
-   ```
-
-5. Test locally:
-   ```bash
-   npm start
-   ```
-
-### 4. Deploy to GitHub Pages
-
-1. Push your code to GitHub
-
-2. Install gh-pages (if not already installed):
-   ```bash
-   cd frontend
-   npm install -D gh-pages
-   ```
-
-3. Deploy:
-   ```bash
-   npm run deploy
-   ```
-
-4. Enable GitHub Pages in your repository settings:
-   - Go to Settings > Pages
-   - Select `gh-pages` branch
-   - Your site will be live at `https://yourusername.github.io/Fetichatbot/`
-
-## 🎨 Features
-
-- **Modern UI**: Beautiful gradient design with glassmorphism effects
-- **Real-time Chat**: Interactive chat interface with loading states
-- **Example Questions**: Pre-built question suggestions
-- **Responsive Design**: Works on desktop and mobile
-- **SQL Generation**: Automatically converts natural language to SQL
-- **Data Visualization**: Returns formatted results from database queries
-
-## 🔧 Environment Variables
-
-### Frontend (.env)
-```
-REACT_APP_API_URL=https://your-vercel-app.vercel.app/api/chat
+### 1. Clone the repository
+```bash
+git clone https://github.com/YOUR_USERNAME/Fetichatbot.git
+cd Fetichatbot
 ```
 
-### Backend (Vercel Environment Variables)
+### 2. Set up the Backend
+Navigate to the backend directory and install dependencies:
+```bash
+cd backend
+pip install -r requirements.txt
 ```
-DATABASE_URL=postgresql://username:password@host:port/database
-GOOGLE_API_KEY=your_google_gemini_api_key
+
+### 3. Configure Environment Variables
+Create a `.env` file in the root directory and add your Google API Key:
+```env
+GOOGLE_API_KEY=your_gemini_api_key_here
 ```
 
-**Note**: DATABASE_URL should be your existing PostgreSQL connection string from your Docker setup.
+## 🏃 Running the Application
 
-## 📊 Database Schema
+### Start the Backend
+From the root directory:
+```bash
+python backend/main.py
+```
+The server will start at `http://localhost:8000`.
 
-### trips
-- trip_id (TEXT, PRIMARY KEY)
-- user_id_booker (TEXT)
-- pickup_address (TEXT)
-- dropoff_address (TEXT)
-- pickup_lat (FLOAT)
-- pickup_lon (FLOAT)
-- dropoff_lat (FLOAT)
-- dropoff_lon (FLOAT)
-- pickup_ts (TIMESTAMP)
-- dropoff_ts (TIMESTAMP)
-- rider_count (INTEGER)
+### Launch the Frontend
+Simply open `frontend copy/index.html` in your web browser, or use a live server extension in your IDE.
 
-### riders
-- trip_id (TEXT)
-- user_id (TEXT)
-- PRIMARY KEY (trip_id, user_id)
+## 🌐 Deployment
 
-### ride_demo
-- user_id (TEXT, PRIMARY KEY)
-- age (INTEGER)
+### Frontend
+The frontend is purely static and can be hosted for free on **GitHub Pages**, **Vercel**, or **Netlify**.
 
-## 🐛 Troubleshooting
+### Backend
+The backend requires a Python environment. Recommended hosting platforms:
+- **Render / Railway**: Ideal for SQLite-based apps with persistent disk support.
+- **Vercel**: Requires a `vercel.json` configuration and ideally a migration to a cloud database like **Supabase** (as SQLite is read-only on Vercel).
 
-### Frontend shows "API request failed"
-- Check that `REACT_APP_API_URL` is set correctly in `.env`
-- Ensure the backend is deployed and accessible
-- Check browser console for specific error messages
+## 🔒 Security
+- Ensure your `.env` file is included in `.gitignore` to prevent API keys from being pushed to public repositories.
+- The backend includes CORS configuration to allow secure communication with the frontend.
 
-### Backend returns "Missing required environment variables"
-- Verify DATABASE_URL and GOOGLE_API_KEY are set in Vercel dashboard
-- Make sure your PostgreSQL database is accessible from Vercel (may need to whitelist Vercel IPs)
-
-### Database connection errors
-- Verify your DATABASE_URL format is correct: `postgresql://user:password@host:port/database`
-- Ensure your PostgreSQL database allows external connections
-- Check if you need to whitelist Vercel's IP addresses in your database firewall
-
-## 📝 Example Queries
-
-- "Top 10 dropoff addresses for riders aged 18-24"
-- "Average trip duration on weekends"
-- "Most popular pickup locations"
-- "Rider demographics by age group"
-- "Total number of trips in the last month"
-
-## 🤝 Contributing
-
-This is a personal project, but feel free to fork and modify for your own use!
-
-## 📄 License
-
-MIT License
+---
+Built with ❤️ using FastAPI, LangChain, and Google Gemini.
