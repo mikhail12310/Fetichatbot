@@ -1,5 +1,7 @@
 {
     "Please list the tables present in the database and provide a brief summary of the data in each table.": "The database contains one table named `fetiiai_data_austin`. This table appears to store data about ride-sharing trips, including trip IDs, user IDs, pick-up and drop-off locations (latitude, longitude, and address), trip date and time, and the total number of passengers.",
     "How many trips were completed in total?": "",
-    "Which pick-up address is the most popular?": "The most popular pick-up address is 'West Campus, Nueces St, Austin, United States, 78705'."
+    "Which pick-up address is the most popular?": "The most popular pick-up address is 'West Campus, Nueces St, Austin, United States, 78705'.",
+    "What is the average number of passengers per trip?": "The average number of passengers per trip is 9.984.",
+    "Show the distribution of trips by hour of the day.": "The distribution of trips by hour of the day is as follows:\n- 00:00: 126 trips\n- 01:0"
 }
