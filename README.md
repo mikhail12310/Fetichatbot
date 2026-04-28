@@ -1,5 +1,7 @@
 # Fetichatbot 🤖
 
+https://github.com/user-attachments/assets/f8849b85-dc90-4bd3-8c11-cbef5388a53b
+
 Fetichatbot is a powerful, intelligent SQL Chatbot that allows users to chat with their data. Built with **FastAPI** and powered by **Google Gemini** models via **LangChain**, it enables natural language querying of structured datasets (CSV, Excel, Parquet) through an interactive web interface.
 
 ## 🚀 Features
